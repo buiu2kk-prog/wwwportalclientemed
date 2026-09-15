@@ -1,387 +1,833 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Verificação de Segurança</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+  <title>Rafael Patrique Vasconcelos Bueno | Transporte e Entregas</title>
 
-body{
-  font-family:Arial, Helvetica, sans-serif;
-  background:#d9dde3;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  height:100vh;
-}
+  <meta name="description"
+        content="Serviços de transporte de passageiros com motorista, fretamento municipal e entregas rápidas em Panambi e região.">
 
-/* CARD */
-.card{
-  width:380px;
-  background:#fff;
-  border-radius:14px;
-  padding:28px 25px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
-  position:relative;
-  overflow:hidden;
-  text-align:center;
-}
+  <style>
+    :root {
+      --primary: #0b5cff;
+      --primary-dark: #0645c7;
+      --dark: #0b1220;
+      --dark-2: #111b2e;
+      --text: #172033;
+      --muted: #667085;
+      --light: #f5f8fc;
+      --white: #ffffff;
+      --green: #16a34a;
+      --border: #e7ebf2;
+      --shadow: 0 20px 50px rgba(11, 18, 32, .10);
+    }
 
-/* LINHA SUPERIOR */
-.card::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:2px;
-  background:#cbd5e1;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* TITULO */
-.title{
-  font-size:22px;
-  font-weight:700;
-  color:#1e293b;
-  margin-bottom:10px;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-/* SUBTITULO */
-.subtitle{
-  font-size:14px;
-  color:#64748b;
-  margin-bottom:22px;
-  line-height:1.5;
-}
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
+    }
 
-/* CAPTCHA */
-.captcha-box{
-  border:1px solid #d1d5db;
-  border-radius:10px;
-  background:#f8fafc;
-  padding:18px;
-}
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-.captcha-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
+    .container {
+      width: min(1120px, 92%);
+      margin: auto;
+    }
 
-/* CHECK */
-.check-area{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  cursor:pointer;
-  padding:10px;
-  border-radius:12px;
-  transition:0.25s;
-}
+    /* HEADER */
 
-.check-area:hover{
-  background:#e2e8f0;
-}
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
 
-.check-area input{
-  display:none;
-}
+    nav {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
 
-.custom-check{
-  width:28px;
-  height:28px;
-  border:2px solid #7c7c7c;
-  border-radius:8px;
-  background:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  transition:0.25s ease;
-  flex-shrink:0;
-}
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 18px;
+    }
 
-.custom-check.loading::before{
-  content:"";
-  width:16px;
-  height:16px;
-  border:2px solid #dbeafe;
-  border-top:2px solid #2563eb;
-  border-radius:50%;
-  animation:spin .7s linear infinite;
-}
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--primary);
+      color: white;
+      font-size: 21px;
+    }
 
-.custom-check.checked{
-  border-color:#16a34a;
-  background:#f0fdf4;
-}
+    .nav-links {
+      display: flex;
+      gap: 26px;
+      align-items: center;
+      list-style: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
 
-.custom-check.checked::before{
-  content:"✔";
-  color:#16a34a;
-  font-size:16px;
-  font-weight:bold;
-}
+    .nav-links a:hover {
+      color: var(--primary);
+    }
 
-.check-text{
-  font-size:14px;
-  color:#0f172a;
-  white-space:nowrap;
-}
+    .nav-button {
+      background: var(--primary);
+      color: white !important;
+      padding: 11px 18px;
+      border-radius: 9px;
+    }
 
-/* RECAPTCHA */
-.captcha-brand{
-  text-align:center;
-  font-size:11px;
-  color:#64748b;
-  min-width:70px;
-}
+    .nav-button:hover {
+      background: var(--primary-dark);
+    }
 
-.captcha-brand img{
-  width:34px;
-  display:block;
-  margin:0 auto 3px;
-}
+    /* HERO */
 
-/* SEGURANÇA */
-.secure{
-  margin-top:18px;
-  color:#16a34a;
-  font-size:14px;
-  font-weight:600;
-}
+    .hero {
+      background:
+        radial-gradient(circle at 80% 20%, rgba(11,92,255,.25), transparent 35%),
+        linear-gradient(135deg, #08101f, #12223d);
+      color: white;
+      padding: 100px 0;
+      overflow: hidden;
+    }
 
-/* FOOTER */
-.footer{
-  margin-top:16px;
-  text-align:center;
-  font-size:14px;
-  color:#64748b;
-  line-height:1.6;
-}
+    .hero-content {
+      max-width: 760px;
+    }
 
-.footer span{
-  display:block;
-  color:#94a3b8;
-  margin-top:6px;
-  font-size:14px;
-}
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.15);
+      padding: 7px 13px;
+      border-radius: 100px;
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
 
-/* POPUP */
-.popup{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.4);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-}
+    .status {
+      width: 8px;
+      height: 8px;
+      background: #36d979;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #36d979;
+    }
 
-.popup-box{
-  background:#fff;
-  width:330px;
-  padding:28px;
-  border-radius:16px;
-  text-align:center;
-  animation:fadeIn .3s ease;
-  box-shadow:0 10px 30px rgba(0,0,0,0.15);
-}
+    .hero h1 {
+      font-size: clamp(38px, 6vw, 68px);
+      line-height: 1.08;
+      margin-bottom: 22px;
+      letter-spacing: -2px;
+    }
 
-.popup-icon{
-  width:70px;
-  height:70px;
-  background:#dcfce7;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:0 auto 15px;
-  font-size:34px;
-  color:#16a34a;
-}
+    .hero h1 span {
+      color: #5f9cff;
+    }
 
-.popup h2{
-  color:#0f172a;
-  margin-bottom:10px;
-  font-size:22px;
-}
+    .hero p {
+      color: #c7d2e4;
+      max-width: 650px;
+      font-size: 18px;
+      margin-bottom: 32px;
+    }
 
-.popup p{
-  color:#64748b;
-  font-size:14px;
-  line-height:1.5;
-  margin-bottom:20px;
-}
+    .hero-buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
 
-.popup button{
-  background:#2563eb;
-  color:#fff;
-  border:none;
-  padding:12px 25px;
-  border-radius:10px;
-  cursor:pointer;
-  font-size:14px;
-  transition:.2s;
-}
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 14px 22px;
+      border-radius: 10px;
+      font-weight: 700;
+      transition: .2s;
+    }
 
-.popup button:hover{
-  background:#1d4ed8;
-}
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
 
-/* ANIMAÇÕES */
-@keyframes spin{
-  from{
-    transform:rotate(0deg);
-  }
-  to{
-    transform:rotate(360deg);
-  }
-}
+    .btn-primary:hover {
+      background: #2871ff;
+      transform: translateY(-2px);
+    }
 
-@keyframes fadeIn{
-  from{
-    opacity:0;
-    transform:scale(.9);
-  }
-  to{
-    opacity:1;
-    transform:scale(1);
-  }
-}
-</style>
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,.25);
+      color: white;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,.08);
+    }
+
+    /* SECTIONS */
+
+    section {
+      padding: 85px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-title small {
+      color: var(--primary);
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+    }
+
+    .section-title h2 {
+      font-size: 38px;
+      margin: 8px 0;
+      letter-spacing: -1px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      max-width: 650px;
+      margin: auto;
+    }
+
+    /* SERVICES */
+
+    .services {
+      background: var(--light);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.03);
+      transition: .25s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow);
+    }
+
+    .icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: #eaf1ff;
+      color: var(--primary);
+      font-size: 25px;
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    /* ABOUT */
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .about h2 {
+      font-size: 40px;
+      line-height: 1.15;
+      margin: 10px 0 20px;
+    }
+
+    .about p {
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .check-list {
+      list-style: none;
+      margin-top: 25px;
+    }
+
+    .check-list li {
+      margin: 12px 0;
+      font-weight: 600;
+    }
+
+    .check-list li::before {
+      content: "✓";
+      color: var(--green);
+      font-weight: 900;
+      margin-right: 10px;
+    }
+
+    .company-box {
+      background: linear-gradient(145deg, #f3f7ff, #ffffff);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 35px;
+      box-shadow: var(--shadow);
+    }
+
+    .company-box h3 {
+      margin-bottom: 20px;
+    }
+
+    .info {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .info:last-child {
+      border-bottom: 0;
+    }
+
+    .info span:first-child {
+      color: var(--muted);
+    }
+
+    .info strong {
+      text-align: right;
+    }
+
+    .active {
+      color: var(--green);
+    }
+
+    /* CTA */
+
+    .cta {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .cta p {
+      color: #dbe7ff;
+      margin-bottom: 28px;
+    }
+
+    .cta .btn {
+      background: white;
+      color: var(--primary);
+    }
+
+    /* CONTACT */
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    .contact-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .contact-card h3 {
+      margin-bottom: 12px;
+    }
+
+    .contact-card p {
+      color: var(--muted);
+    }
+
+    .contact-link {
+      display: inline-block;
+      margin-top: 15px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* FOOTER */
+
+    footer {
+      background: var(--dark);
+      color: #aeb9ca;
+      padding: 45px 0 25px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 35px;
+    }
+
+    footer h3,
+    footer h4 {
+      color: white;
+      margin-bottom: 12px;
+    }
+
+    footer p,
+    footer li {
+      font-size: 14px;
+    }
+
+    footer ul {
+      list-style: none;
+    }
+
+    footer li {
+      margin: 7px 0;
+    }
+
+    .copyright {
+      border-top: 1px solid #253148;
+      padding-top: 20px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 800px) {
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 75px 0;
+      }
+
+      .cards,
+      .about-grid,
+      .contact-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 65px 0;
+      }
+
+      .section-title h2,
+      .about h2,
+      .cta h2 {
+        font-size: 32px;
+      }
+
+      .company-box {
+        padding: 25px;
+      }
+
+      .info {
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .info strong {
+        text-align: left;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="card">
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <nav>
 
-  <div class="title">
-    Verificação de Segurança
-  </div>
+        <a href="#" class="logo">
+          <span class="logo-icon">🚗</span>
+          <span>Rafael Patrique</span>
+        </a>
 
-  <div class="subtitle">
-    Confirme que você é humano para continuar
-  </div>
+        <ul class="nav-links">
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#empresa">Empresa</a></li>
+          <li><a href="#contato">Contato</a></li>
+          <li>
+            <a href="#contato" class="nav-button">Solicitar serviço</a>
+          </li>
+        </ul>
 
-  <div class="captcha-box">
+      </nav>
+    </div>
+  </header>
 
-    <div class="captcha-row">
 
-      <label class="check-area">
+  <!-- HERO -->
+  <main>
 
-        <input type="checkbox" id="check">
+    <section class="hero">
+      <div class="container">
 
-        <div class="custom-check" id="customCheck"></div>
+        <div class="hero-content">
 
-        <span class="check-text" id="text">
-          Não sou um robô
-        </span>
+          <div class="badge">
+            <span class="status"></span>
+            Empresa ativa • Panambi/RS
+          </div>
 
-      </label>
+          <h1>
+            Transporte com <span>segurança</span>,
+            confiança e compromisso.
+          </h1>
 
-      <div class="captcha-brand">
-        <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png">
-        reCAPTCHA
-        <br>
-        <span style="font-size:11px;">
-          Privacidade - Termos
-        </span>
+          <p>
+            Serviços de transporte de passageiros com motorista,
+            fretamento municipal e entregas rápidas em Panambi e região.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#contato" class="btn btn-primary">
+              Entrar em contato
+            </a>
+
+            <a href="#servicos" class="btn btn-outline">
+              Conhecer serviços
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- SERVIÇOS -->
+    <section class="services" id="servicos">
+
+      <div class="container">
+
+        <div class="section-title">
+          <small>Nossos serviços</small>
+          <h2>Soluções para transporte</h2>
+          <p>
+            Atendimento profissional para passageiros,
+            empresas e serviços de entrega.
+          </p>
+        </div>
+
+        <div class="cards">
+
+          <article class="card">
+            <div class="icon">🚘</div>
+            <h3>Transporte com motorista</h3>
+            <p>
+              Serviço de transporte de passageiros com automóvel
+              e motorista, buscando conforto, segurança e pontualidade.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">👥</div>
+            <h3>Fretamento municipal</h3>
+            <p>
+              Transporte rodoviário coletivo de passageiros
+              sob regime de fretamento municipal.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">📦</div>
+            <h3>Entregas rápidas</h3>
+            <p>
+              Serviços de entrega rápida para documentos,
+              encomendas e outros itens.
+            </p>
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- EMPRESA -->
+    <section class="about" id="empresa">
+
+      <div class="container">
+
+        <div class="about-grid">
+
+          <div>
+
+            <small style="color:#0b5cff;font-weight:800;">
+              SOBRE A EMPRESA
+            </small>
+
+            <h2>
+              Transporte feito com responsabilidade.
+            </h2>
+
+            <p>
+              A <strong>64.728.500 Rafael Patrique Vasconcelos Bueno</strong>
+              é uma empresa estabelecida em Panambi, no Rio Grande do Sul,
+              especializada em serviços de transporte de passageiros,
+              fretamento municipal e entregas rápidas.
+            </p>
+
+            <p>
+              Nosso objetivo é oferecer um atendimento confiável,
+              profissional e comprometido com cada cliente.
+            </p>
+
+            <ul class="check-list">
+              <li>Empresa com situação cadastral ativa</li>
+              <li>Atendimento em Panambi e região</li>
+              <li>Transporte de passageiros</li>
+              <li>Serviços de entrega rápida</li>
+            </ul>
+
+          </div>
+
+
+          <div class="company-box">
+
+            <h3>Informações cadastrais</h3>
+
+            <div class="info">
+              <span>CNPJ</span>
+              <strong>64.728.500/0001-27</strong>
+            </div>
+
+            <div class="info">
+              <span>Razão Social</span>
+              <strong>64.728.500 Rafael Patrique Vasconcelos Bueno</strong>
+            </div>
+
+            <div class="info">
+              <span>Fundação</span>
+              <strong>27/01/2026</strong>
+            </div>
+
+            <div class="info">
+              <span>Porte</span>
+              <strong>MEI</strong>
+            </div>
+
+            <div class="info">
+              <span>Natureza Jurídica</span>
+              <strong>Empresário Individual</strong>
+            </div>
+
+            <div class="info">
+              <span>Situação</span>
+              <strong class="active">● Ativa</strong>
+            </div>
+
+            <div class="info">
+              <span>Município</span>
+              <strong>Panambi - RS</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CTA -->
+    <section class="cta">
+
+      <div class="container">
+
+        <h2>Precisa de transporte?</h2>
+
+        <p>
+          Entre em contato e consulte disponibilidade para
+          transporte de passageiros, fretamento ou entregas.
+        </p>
+
+        <a href="#contato" class="btn">
+          Falar conosco
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- CONTATO -->
+    <section id="contato">
+
+      <div class="container">
+
+        <div class="section-title">
+          <small>Contato</small>
+          <h2>Vamos conversar</h2>
+          <p>
+            Entre em contato para solicitar informações,
+            orçamento ou disponibilidade.
+          </p>
+        </div>
+
+        <div class="contact-grid">
+
+          <div class="contact-card">
+            <h3>📍 Localização</h3>
+            <p>
+              Rua da Palmeira, 1682<br>
+              Zona Norte<br>
+              Panambi - RS<br>
+              CEP 98280-000
+            </p>
+
+            <a
+              class="contact-link"
+              href="https://www.google.com/maps/search/?api=1&query=Rua+da+Palmeira+1682+Panambi+RS+98280-000"
+              target="_blank"
+              rel="noopener">
+              Ver localização no mapa →
+            </a>
+          </div>
+
+
+          <div class="contact-card">
+            <h3>📞 Atendimento</h3>
+
+            <p>
+              Entre em contato diretamente para consultar
+              horários, disponibilidade e serviços.
+            </p>
+
+            <!--
+              Substitua o número abaixo pelo telefone completo
+              da empresa antes de publicar.
+            -->
+
+            <a
+              class="contact-link"
+              href="tel:+5555991000000">
+              Ligar para a empresa →
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div>
+          <h3>Rafael Patrique</h3>
+          <p>
+            Transporte de passageiros, fretamento municipal
+            e entregas rápidas.
+          </p>
+        </div>
+
+        <div>
+          <h4>Serviços</h4>
+          <ul>
+            <li>Transporte com motorista</li>
+            <li>Fretamento municipal</li>
+            <li>Entregas rápidas</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Empresa</h4>
+          <ul>
+            <li>Panambi - RS</li>
+            <li>CNPJ: 64.728.500/0001-27</li>
+            <li>Empresa ativa</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="copyright">
+        © <span id="ano"></span>
+        Rafael Patrique Vasconcelos Bueno.
+        Todos os direitos reservados.
       </div>
 
     </div>
 
-  </div>
+  </footer>
 
-  <div class="secure">
-    ✔ Ambiente seguro e protegido
-  </div>
 
-  <div class="footer">
-    Após marcar a opção, a verificação será realizada automaticamente
-
-    <span>
-      Isso ajuda a proteger o sistema contra acessos indevidos
-    </span>
-  </div>
-
-</div>
-
-<!-- POPUP -->
-<div class="popup" id="popup">
-
-  <div class="popup-box">
-
-    <div class="popup-icon">
-      ✔
-    </div>
-
-    <h2>
-      Verificação concluída
-    </h2>
-
-    <p>
-      Sua verificação foi realizada com sucesso.
-      Clique abaixo para continuar para o próximo passo.
-    </p>
-
-    <button id="continueBtn">
-      Continuar
-    </button>
-
-  </div>
-
-</div>
-
-<script>
-const check = document.getElementById("check");
-const customCheck = document.getElementById("customCheck");
-const text = document.getElementById("text");
-const popup = document.getElementById("popup");
-
-check.addEventListener("change", function(){
-
-  if(check.checked){
-
-    customCheck.classList.add("loading");
-
-    text.innerText = "Verificando...";
-
-    setTimeout(function(){
-
-      customCheck.classList.remove("loading");
-
-      customCheck.classList.add("checked");
-
-      text.innerText = "Verificado ✔";
-
-      popup.style.display = "flex";
-
-    }, 3000);
-
-  }
-
-});
-
-document
-.getElementById("continueBtn")
-.addEventListener("click", function(){
-
-  window.location.href =
-  "https://portaldeveiculosdigital.com/rs/";
-
-});
-</script>
+  <script>
+    document.getElementById("ano").textContent =
+      new Date().getFullYear();
+  </script>
 
 </body>
 </html>
